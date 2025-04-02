@@ -4,7 +4,7 @@ import os
 from setuptools import setup, find_packages
 
 # Read the long description from README.md
-with open("readme.md", "r", encoding="utf-8") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 # Read version from dynaport/core/__init__.py

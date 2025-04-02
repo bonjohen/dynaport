@@ -14,8 +14,8 @@ import threading
 import requests
 from flask import Flask, jsonify
 
-from dynaport.port_allocator import PortAllocator
-from dynaport.flask_integration import DynaPortFlask
+from dynaport.core.port_allocator import PortAllocator
+from dynaport.adapters.flask_adapter import DynaPortFlask
 
 
 def create_test_app():
@@ -23,7 +23,7 @@ def create_test_app():
     app = Flask(__name__)
 
     @app.route('/')
-    def index():
+    def index():  # pylint: disable=unused-variable
         return jsonify({
             "message": "DynaPort test successful!",
             "status": "ok"
@@ -35,7 +35,9 @@ def create_test_app():
 def run_test_app(app, port, ready_event):
     """Run the test application in a separate thread."""
     def run():
-        app.run(host='127.0.0.1', port=port)
+        # Use the port from the app's config if not specified
+        actual_port = port or app.config.get('PORT', 5000)
+        app.run(host='127.0.0.1', port=actual_port)
 
     thread = threading.Thread(target=run)
     thread.daemon = True
@@ -43,9 +45,11 @@ def run_test_app(app, port, ready_event):
 
     # Wait for the application to start
     max_attempts = 10
-    for i in range(max_attempts):
+    for _ in range(max_attempts):
         try:
-            response = requests.get(f"http://127.0.0.1:{port}/")
+            # Use the port from the app's config if not specified
+            actual_port = port or app.config.get('PORT', 5000)
+            response = requests.get(f"http://127.0.0.1:{actual_port}/")
             if response.status_code == 200:
                 ready_event.set()
                 break
@@ -84,12 +88,20 @@ def test_port_allocation():
     # Use the allocated port for the next test
     if allocated_port is None:
         allocated_port = 8000
-    return allocated_port
+
+    # Store the port for use in other tests
+    test_port_allocation.port = allocated_port
+
+    # Don't return a value (use assert instead)
+    assert allocated_port > 0, "Port should be a positive number"
 
 
-def test_flask_integration(port=None):
+def test_flask_integration():
     """Test Flask integration."""
     print("Testing Flask integration...")
+
+    # Get the port from the previous test
+    port = getattr(test_port_allocation, 'port', None)
 
     # Create a Flask application
     app = create_test_app()
@@ -112,7 +124,7 @@ def test_flask_integration(port=None):
 
     # Start the application
     ready_event = threading.Event()
-    thread = run_test_app(app, port, ready_event)
+    _ = run_test_app(app, port, ready_event)  # We don't need the thread object
 
     # Wait for the application to start
     if not ready_event.wait(timeout=5):
@@ -121,7 +133,9 @@ def test_flask_integration(port=None):
 
     # Test the application
     try:
-        response = requests.get(f"http://127.0.0.1:{port}/")
+        # Use the port from the app's config
+        actual_port = dynaport.port
+        response = requests.get(f"http://127.0.0.1:{actual_port}/")
         assert response.status_code == 200, f"Expected status code 200, got {response.status_code}"
 
         data = response.json()

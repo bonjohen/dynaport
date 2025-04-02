@@ -35,7 +35,7 @@ def run_socket_server(port: int, stop_event: threading.Event) -> None:
         server_socket.settimeout(1)  # 1 second timeout for accept
         
         print(f"Socket server running on port {port}")
-        print("Send a message to the server using: nc localhost {port}")
+        print(f"Send a message to the server using: nc localhost {port}")
         print("Type 'exit' to stop the server")
         
         # Accept connections until stop_event is set
