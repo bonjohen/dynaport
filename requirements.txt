@@ -1,6 +1,18 @@
-flask>=2.0.0
+# Core dependencies
 click>=8.0.0
 pyyaml>=6.0
 requests>=2.25.0
+
+# Framework adapters
+flask>=2.0.0
+django>=3.2.0
+fastapi>=0.68.0
+uvicorn>=0.15.0
+
+# Development dependencies
 pytest>=7.0.0
 pytest-cov>=3.0.0
+black>=21.5b2
+isort>=5.9.0
+mypy>=0.812
+flake8>=3.9.0

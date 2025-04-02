@@ -1,7 +1,7 @@
 # Port Management System Requirements
 
 ## Overview
-A dynamic port allocation system designed to manage concurrent Flask projects, enabling developers to run multiple instances without port conflicts. The system provides automated port management, configuration, and monitoring capabilities for development, testing, and production environments.
+A dynamic port allocation system designed to manage concurrent applications and services, enabling developers to run multiple instances without port conflicts. The system provides automated port management, configuration, and monitoring capabilities for development, testing, and production environments across any framework or technology stack.
 
 ## 1. Functional Requirements
 
@@ -13,16 +13,17 @@ A dynamic port allocation system designed to manage concurrent Flask projects, e
 - Ability to reserve specific ports for critical services
 
 ### 1.2 Configuration Management
-- Project-specific configuration files for port settings
+- Application-specific configuration files for port settings
 - Environment-specific configuration (dev, test, prod)
-- Instance-specific configuration for multiple instances of the same project
+- Instance-specific configuration for multiple instances of the same application
 - Command-line interface for overriding configuration settings
 - Support for configuration inheritance and overrides
 
-### 1.3 Project Integration
-- Minimal-invasive integration with existing Flask projects
-- Support for Flask application factory pattern
-- Compatibility with common Flask extensions and deployment methods
+### 1.3 Framework Integration
+- Framework-agnostic core functionality
+- Minimal-invasive integration with existing applications
+- Adapter interfaces for popular frameworks and technologies
+- Reference implementations for common frameworks (Flask, Django, FastAPI, etc.)
 - Standardized configuration interface for port-dependent services
 
 ### 1.4 Service Discovery
@@ -30,12 +31,14 @@ A dynamic port allocation system designed to manage concurrent Flask projects, e
 - API for discovering service endpoints
 - Support for service dependencies and startup order
 - Health checking for dependent services
+- Technology-agnostic service registration
 
 ### 1.5 Monitoring and Management
 - Web interface for viewing active services and their ports
 - Command-line tools for managing service instances
 - Port usage statistics and recommendations
 - Logging of port assignments and conflicts
+- Support for monitoring services across different technologies
 
 ## 2. Non-Functional Requirements
 
@@ -54,6 +57,7 @@ A dynamic port allocation system designed to manage concurrent Flask projects, e
 - Clear documentation and examples
 - Intuitive command-line interface
 - Minimal configuration for basic use cases
+- Technology-agnostic examples and guides
 
 ### 2.4 Scalability
 - Support for dozens of concurrent service instances
@@ -68,19 +72,22 @@ A dynamic port allocation system designed to manage concurrent Flask projects, e
 - Service registry and discovery mechanism
 - Command-line interface for management
 - Web dashboard for monitoring (optional)
+- Framework adapter interfaces
 
 ### 3.2 Implementation
 - Python 3.9+ compatibility
 - Minimal external dependencies
 - Support for Windows, macOS, and Linux platforms
 - Containerization support (Docker)
+- Clean separation between core functionality and framework adapters
 
 ### 3.3 Integration Points
-- Flask application integration
-- Support for other WSGI frameworks (optional)
+- Framework-agnostic core API
+- Adapter interfaces for web frameworks
 - Database service integration
 - Caching service integration
 - Message queue integration
+- Support for non-Python applications via CLI and API
 
 ## 4. Development Process
 1. Define the port management API and interfaces
@@ -88,15 +95,18 @@ A dynamic port allocation system designed to manage concurrent Flask projects, e
 3. Create configuration management system
 4. Develop service registry and discovery
 5. Build command-line interface
-6. Create integration examples for Flask applications
-7. Implement web dashboard for monitoring (optional)
-8. Write comprehensive documentation and examples
+6. Design framework adapter interfaces
+7. Implement reference adapters for popular frameworks
+8. Create integration examples for various technologies
+9. Implement web dashboard for monitoring (optional)
+10. Write comprehensive documentation and examples
 
 ## 5. Deliverables
-- Port management library with Python API
+- Framework-agnostic port management library with Python API
 - Command-line tools for port management
 - Configuration templates and examples
-- Integration examples for Flask applications
+- Framework adapter interfaces and reference implementations
+- Integration examples for various technologies
 - Documentation and user guides
 - Web dashboard for monitoring (optional)
 
@@ -107,15 +117,16 @@ A dynamic port allocation system designed to manage concurrent Flask projects, e
 
 ## 7. Testing Requirements
 - Unit tests for all core functionality
-- Integration tests for Flask application integration
+- Integration tests for framework adapters
 - Performance testing for concurrent operations
 - Cross-platform testing
 - Test coverage minimum of 80%
 
 ## 8. Documentation Requirements
 - API documentation
-- User guides
+- User guides for different technologies
 - Installation instructions
 - Configuration examples
 - Troubleshooting guide
 - Contributing guidelines
+- Framework integration guides
