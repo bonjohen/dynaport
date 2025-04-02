@@ -1,0 +1,8 @@
+include LICENSE
+include readme.md
+include requirements.txt
+include pytest.ini
+recursive-include dynaport/templates *
+recursive-include dynaport/static *
+recursive-include examples *
+recursive-include tests *
